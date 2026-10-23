@@ -253,43 +253,25 @@ body{margin:0} img{max-width:100%}
   </section>
 
   <section id="work">
-    <h2>How I work</h2>
+    <h2>How I work — in practice</h2>
+    <p class="lede">Not a checklist. Four operating patterns that show up in every project above: design by contract, verify before claiming, never review yourself, and ship the proof with the code.</p>
+
     <div class="cols">
       <div>
-        <h3>Systems</h3>
-        <ul class="plain">
-          <li>Rust (36k LOC, 271 tests, 45 conformance scenarios)</li>
-          <li>TypeScript agents (Orchestra, Claude Code adapter)</li>
-          <li>Python graphs (LangGraph relay, analysis scripts)</li>
-          <li>Container / process containment (POSIX, Windows Job, AppContainer)</li>
-        </ul>
+        <h3>Design by contract</h3>
+        <p>Before any implementation, the wire format, null behaviour, and error cases are frozen as text in the repo. In <b>Omni</b>, the protocol doc (<code>SCM_RIGHTS</code> / <code>DuplicateHandle</code>, session leader semantics, unreaped-root rule) was written before the supervisor crate; the Rust code follows the doc, not the other way. In <b>Relay</b>, the state-machine table (7 transitions, escalation rules, regression budget) defines what the code must do; the 30 HTTP routes and 12k TypeScript UI lines implement that table exactly. Changes to the contract force a visible diff; changes to the code that do not touch the contract are invisible to consumers.</p>
       </div>
       <div>
-        <h3>Engineering</h3>
-        <ul class="plain">
-          <li>Contract-first design (frozen seams, exact wire/null/error spec)</li>
-          <li>Evidence-first claims (observed source / proposal / assumption / blocker)</li>
-          <li>Cold review from verbatim demand (never self-review)</li>
-          <li>Tamper-evident ledgers (JSONL HMAC chain)</li>
-        </ul>
+        <h3>Verify before claiming</h3>
+        <p>Every claim in the portfolio above is paired with a check that can fail independently of me. <b>Atlas</b>: 23,702 planted mutations run through the same indexer; a single false admission fails the build. <b>Lean</b>: live A/B on 8 pinned tasks (protocol fixed before the run) measures −47.9% input; if task success had dropped, the claim would be retracted. <b>Omni</b>: 45 JSON conformance scenarios count a skipped scenario as failure; green on Linux/macOS/Windows is required before any per-OS guarantee appears in docs.</p>
       </div>
       <div>
-        <h3>Tools &amp; delivery</h3>
-        <ul class="plain">
-          <li>CI on Linux / macOS / Windows (x64 + arm64)</li>
-          <li>SCIP / tree-sitter / SQLite FTS5 indexing</li>
-          <li>Playwright end-to-end, 30 HTTP routes</li>
-          <li>npm packaging with provenance, attested tarballs</li>
-        </ul>
+        <h3>Never review yourself</h3>
+        <p>The <b>Maestro</b> governance chain separates planning (Archie), execution (backend/Charlie), and review (Lucy / Billy / Frank). A review seat has zero shell or edit access; an execution seat cannot push, open PRs, or release. <code>.env</code> is unreadable to every seat. The cold review reads the verbatim demand, not my summary; the host verifies authorship from original bytes before appending package verification. This is not process theatre — it is how I catch my own errors without relying on memory.</p>
       </div>
       <div>
-        <h3>Open source</h3>
-        <ul class="plain">
-          <li>MIT-licensed releases with pinned versions</li>
-          <li>Public issue / PR workflow; independent review seats</li>
-          <li>Conformance scenarios that count skipped = failure</li>
-          <li>Real runtime instances in CI (Cassandra 5.0.5)</li>
-        </ul>
+        <h3>Ship the proof</h3>
+        <p>Every deliverable includes the evidence that validates it. <b>Relay</b>: the ledger (JSONL HMAC-SHA256 chain) records every control verdict; <code>relay verify</code> detects added or removed controls. <b>Lean</b>: 2,715 fixtures replay 343,045 real tool calls; the original byte stream is stored with every summary, recallable by id. <b>Omni</b>: CI runs the same 45 scenarios unchanged through Rust and TypeScript runners; conformance passes on all three OSes are listed only with the passing CI link. The claim and its falsifier travel together.</p>
       </div>
     </div>
   </section>
